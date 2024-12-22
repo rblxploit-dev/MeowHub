@@ -6,7 +6,7 @@ local Players = game:GetService("Players")
 local localPlayer = Players.LocalPlayer
 local infiniteJumpToggle = false
 
-local supported = "2 Games Supported + 10 Universal Scripts"
+local supported = "3 Games Supported + 10 Universal Scripts"
 
 local RAW = game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau")
 
@@ -20,6 +20,8 @@ function GameName()
 		return "Jailbreak"
 	elseif game.PlaceId == 142823291 then
 		return "Murder Mystery 2"
+	elseif game.PlaceId == 10449761463 then
+		return "The Strongest Battlegrounds"
 	end
 	return nil
 end
@@ -85,51 +87,6 @@ local Window = Rayfield:CreateWindow({
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
       Key = {"Ninja"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
-})
-
-local settingsTab = Window:CreateTab("Settings", "file-cog")
-local updateSection = settingsTab:CreateSection("Update Detector")
-
-local noticeEnableToggle = settingsTab:CreateToggle({
-   Name = "Detector Enabled",
-   CurrentValue = false,
-   Flag = "updd", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
-		UpdateDetector = Value
-   end,
-})
-
-local updateIntervalSlider = settingsTab:CreateSlider({
-   Name = "Checker Interval",
-   Range = {10, 600},
-   Increment = 10,
-   Suffix = "Seconds",
-   CurrentValue = 10,
-   Flag = "cis1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
-		UpdateInterval = Value
-   end,
-})
-
-local Button = settingsTab:CreateButton({
-   Name = "Check Now",
-   Callback = function()
-   		if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW then
-			Rayfield:Notify({
-				Title = "MeowHub",
-				Content = "New Update Detected. Re-execute the script to apply. No further action is required.",
-				Duration = 6.5,
-				Image = "shield-alert",
-			})
-		else
-			Rayfield:Notify({
-				Title = "MeowHub",
-				Content = "No update detected. No further action is required.",
-				Duration = 6.5,
-				Image = "shield-check",
-			})
-		end
-   end,
 })
 
 local universalTab = Window:CreateTab("Universal", "Earth")
@@ -306,9 +263,19 @@ elseif GameName() == "Murder Mystery 2" then
 	local scriptHubSection = gameTab:CreateSection("Script Hubs")
 
 	local YARHMButton = gameTab:CreateButton({
-	Name = "Yet Another Random Hub Menu",
+	Name = "YARHM",
 		Callback = function()
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/source/yarhm/1.18/yarhm.lua"))()
+		end,
+	})
+elseif GameName() == "The Strongest Battlegrounds" then
+	local gameTab = Window:CreateTab("The Strongest Battlegrounds", "biceps-flexed")
+	local scriptHubSection = gameTab:CreateSection("Script Hubs")
+
+	local YARHMButton = gameTab:CreateButton({
+	Name = "Kade Hub",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/skibiditoiletfan2007/KadeHubRepository/main/Latest.lua"))()
 		end,
 	})
 end
@@ -325,6 +292,60 @@ coroutine.resume(coroutine.create(function()
 		end
 	end
 end))
+
+local settingsTab = Window:CreateTab("Settings", "file-cog")
+local updateSection = settingsTab:CreateSection("Update Detector")
+
+local noticeEnableToggle = settingsTab:CreateToggle({
+   Name = "Detector Enabled",
+   CurrentValue = false,
+   Flag = "updd", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+		UpdateDetector = Value
+   end,
+})
+
+local updateIntervalSlider = settingsTab:CreateSlider({
+   Name = "Checker Interval",
+   Range = {10, 600},
+   Increment = 10,
+   Suffix = "Seconds",
+   CurrentValue = 10,
+   Flag = "cis1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+		UpdateInterval = Value
+   end,
+})
+
+local Button = settingsTab:CreateButton({
+   Name = "Check Now",
+   Callback = function()
+   		if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW then
+			Rayfield:Notify({
+				Title = "MeowHub",
+				Content = "New Update Detected. Re-execute the script to apply. No further action is required.",
+				Duration = 6.5,
+				Image = "shield-alert",
+			})
+		else
+			Rayfield:Notify({
+				Title = "MeowHub",
+				Content = "No update detected. No further action is required.",
+				Duration = 6.5,
+				Image = "shield-check",
+			})
+		end
+   end,
+})
+
+if GameName() ~= nil then
+	Rayfield:Notify({
+		Title = "MeowHub",
+		Content = GameName() .. " is supported! Loading the module.",
+		Duration = 6.5,
+		Image = "shield-check",
+	})
+end
 
 Rayfield:Notify({
 	Title = "MeowHub",
