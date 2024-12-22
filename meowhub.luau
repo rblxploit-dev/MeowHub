@@ -10,6 +10,11 @@ local supported = "2 Games Supported + 10 Universal Scripts"
 
 local RAW = game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau")
 
+local Settings = {}
+
+UpdateDetector = true
+UpdateInterval = 120
+
 function GameName()
 	if game.PlaceId == 606849621 then
 		return "Jailbreak"
@@ -80,6 +85,51 @@ local Window = Rayfield:CreateWindow({
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
       Key = {"Ninja"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
+})
+
+local settingsTab = Window:CreateTab("Settings", "file-cog")
+local updateSection = settingsTab:CreateSection("Update Detector")
+
+local noticeEnableToggle = settingsTab:CreateToggle({
+   Name = "Detector Enabled",
+   CurrentValue = false,
+   Flag = "updd", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+		UpdateDetector = Value
+   end,
+})
+
+local updateIntervalSlider = settingsTab:CreateSlider({
+   Name = "Checker Interval",
+   Range = {10, 600},
+   Increment = 10,
+   Suffix = "Seconds",
+   CurrentValue = 10,
+   Flag = "cis1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+		UpdateInterval = Value
+   end,
+})
+
+local Button = settingsTab:CreateButton({
+   Name = "Check Now",
+   Callback = function()
+   		if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW then
+			Rayfield:Notify({
+				Title = "MeowHub",
+				Content = "New Update Detected. Re-execute the script to apply. No further action is required.",
+				Duration = 6.5,
+				Image = "shield-alert",
+			})
+		else
+			Rayfield:Notify({
+				Title = "MeowHub",
+				Content = "No update detected. No further action is required.",
+				Duration = 6.5,
+				Image = "shield-check",
+			})
+		end
+   end,
 })
 
 local universalTab = Window:CreateTab("Universal", "Earth")
@@ -252,7 +302,7 @@ elseif GameName() == "Jailbreak" then
 		end,
 	})
 elseif GameName() == "Murder Mystery 2" then
-	local gameTab = Window:CreateTab("Jailbreak", "columns-4")
+	local gameTab = Window:CreateTab("Murder Mystery 2", "slice")
 	local scriptHubSection = gameTab:CreateSection("Script Hubs")
 
 	local YARHMButton = gameTab:CreateButton({
@@ -263,20 +313,22 @@ elseif GameName() == "Murder Mystery 2" then
 	})
 end
 
+coroutine.resume(coroutine.create(function() 
+	while task.wait(UpdateInterval) do
+		if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW and UpdateDetector then
+			Rayfield:Notify({
+				Title = "MeowHub",
+				Content = "New Update Detected. Re-execute the script to apply. No further action is required.",
+				Duration = 6.5,
+				Image = "shield-alert",
+			})
+		end
+	end
+end))
+
 Rayfield:Notify({
 	Title = "MeowHub",
 	Content = "Finished Loading.",
 	Duration = 6.5,
 	Image = "shield-check",
 })
-
-while task.wait(60) do
-	if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW then
-		Rayfield:Notify({
-			Title = "MeowHub",
-			Content = "New Update Detected. Re-execute the script to apply. No further action is required.",
-			Duration = 6.5,
-			Image = "shield-check",
-		})
-	end
-end
