@@ -6,11 +6,15 @@ local Players = game:GetService("Players")
 local localPlayer = Players.LocalPlayer
 local infiniteJumpToggle = false
 
-local supported = "1 Game Supported + 10 Universal Scripts"
+local supported = "2 Games Supported + 10 Universal Scripts"
+
+local RAW = game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau")
 
 function GameName()
 	if game.PlaceId == 606849621 then
 		return "Jailbreak"
+	elseif game.PlaceId == 142823291 then
+		return "Murder Mystery 2"
 	end
 	return nil
 end
@@ -247,10 +251,32 @@ elseif GameName() == "Jailbreak" then
 			loadstring(game:HttpGet('http://scripts.projectauto.xyz/DropFarmV2'))()
 		end,
 	})
-end
-	Rayfield:Notify({
-		Title = "MeowHub",
-		Content = "Finished Loading.",
-		Duration = 6.5,
-		Image = "shield-check",
+elseif GameName() == "Murder Mystery 2" then
+	local gameTab = Window:CreateTab("Jailbreak", "columns-4")
+	local scriptHubSection = gameTab:CreateSection("Script Hubs")
+
+	local YARHMButton = gameTab:CreateButton({
+	Name = "Yet Another Random Hub Menu",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/source/yarhm/1.18/yarhm.lua"))()
+		end,
 	})
+end
+
+Rayfield:Notify({
+	Title = "MeowHub",
+	Content = "Finished Loading.",
+	Duration = 6.5,
+	Image = "shield-check",
+})
+
+while task.wait(60) do
+	if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW then
+		Rayfield:Notify({
+			Title = "MeowHub",
+			Content = "New Update Detected. Re-execute the script to apply. No further action is required.",
+			Duration = 6.5,
+			Image = "shield-check",
+		})
+	end
+end
