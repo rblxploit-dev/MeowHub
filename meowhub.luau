@@ -9,13 +9,15 @@ local supportedGames = { [606849621] = "Jailbreak", [142823291] = "Murder Myster
 local RAW = game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau")
 local UpdateDetector = true
 local UpdateInterval = 120
+local BrodcastEnabled = true
+local BrodcastInterval = 120
 
 --// Functions
-local function getGameName()
+function getGameName()
    return supportedGames[game.PlaceId] or nil
 end
 
-local function notify(title, content, duration, image)
+function notify(title, content, duration, image)
    Rayfield:Notify({
       Title = title,
       Content = content,
@@ -24,11 +26,11 @@ local function notify(title, content, duration, image)
    })
 end
 
-local function insertSeparator(input)
+function insertSeparator(input)
    return "̌⁥̌⁥̌⁥ ⁥ ॓᳚ ⁥ ⁥ ⁥ ⁥̌⁥̌̌̌ ᳚᳚⁥ť⁥⁥ ⁥" .. input
 end
 
-local function loadScript(url)
+function loadScript(url)
    local success, err = pcall(function()
       loadstring(game:HttpGet(url))()
    end)
@@ -156,12 +158,35 @@ local function loadGameScripts()
       local gameTab = Window:CreateTab("Jailbreak", "columns-4")
       local gameSection = gameTab:CreateSection("Script Hubs")
       local AutoRob4Button = gameTab:CreateButton({
-         Name = "Auto Rob v4",
+      Name = "Auto Rob v4",
          Callback = function()
-            loadScript('http://scripts.projectauto.xyz/AutoRobV4')
+            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoRobV4'))()
          end,
       })
-      -- Add other Jailbreak-specific buttons here...
+      local AutoRob5Button = gameTab:CreateButton({
+      Name = "Auto Rob v5 (WARNING: BETA)",
+         Callback = function()
+            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoRobV4'))()
+         end,
+      })
+      local AutoArrest3Button = gameTab:CreateButton({
+      Name = "Auto Arrest v3 (WARNING: BETA)",
+         Callback = function()
+            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoRobV4'))()
+         end,
+      })
+      local AutoArrest4Button = gameTab:CreateButton({
+      Name = "Auto Arrest v4 (WARNING: PAID, BETA)",
+         Callback = function()
+            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoArrestV3'))()
+         end,
+      })
+      local DropFarm2Button = gameTab:CreateButton({
+      Name = "Drop Farm v2 (WARNING: PAID)",
+         Callback = function()
+            loadstring(game:HttpGet('http://scripts.projectauto.xyz/DropFarmV2'))()
+         end,
+      })
    elseif gameName == "Murder Mystery 2" then
       local gameTab = Window:CreateTab("Murder Mystery 2", "slice")
       local gameSection = gameTab:CreateSection("Script Hubs")
@@ -192,6 +217,19 @@ coroutine.resume(coroutine.create(function()
    end
 end))
 
+-- Brodcast
+coroutine.resume(coroutine.create(function()
+   while task.wait(BrodcastInterval) do
+      if BrodcastEnabled then
+	  	if math.random(1, 2) == 1 then
+		  print("MeowHub 🔛🔝")
+		else
+		  print("--> MeowHub <--")
+		end
+	  end
+   end
+end))
+
 -- Settings Tab for Update Detector
 local settingsTab = Window:CreateTab("Settings", "file-cog")
 local updateSection = settingsTab:CreateSection("Update Detector")
@@ -210,10 +248,33 @@ local updateIntervalSlider = settingsTab:CreateSlider({
    Range = {10, 600},
    Increment = 10,
    Suffix = "Seconds",
-   CurrentValue = 10,
+   CurrentValue = 120,
    Flag = "cis1",
    Callback = function(Value)
       UpdateInterval = Value
+   end,
+})
+
+local BrodcastSection = settingsTab:CreateSection("Chat Brodcast")
+
+local noticeEnableToggle = settingsTab:CreateToggle({
+   Name = "Brodcast Enabled",
+   CurrentValue = false,
+   Flag = "be1",
+   Callback = function(Value)
+      BrodcastEnabled = Value
+   end,
+})
+
+local updateIntervalSlider = settingsTab:CreateSlider({
+   Name = "Brodcast Interval",
+   Range = {10, 600},
+   Increment = 10,
+   Suffix = "Seconds",
+   CurrentValue = 120,
+   Flag = "bri1",
+   Callback = function(Value)
+      BrodcastInterval = Value
    end,
 })
 
