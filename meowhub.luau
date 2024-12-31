@@ -158,35 +158,12 @@ local function loadGameScripts()
       local gameTab = Window:CreateTab("Jailbreak", "columns-4")
       local gameSection = gameTab:CreateSection("Script Hubs")
       local AutoRob4Button = gameTab:CreateButton({
-      Name = "Auto Rob v4",
+         Name = "Auto Rob v4",
          Callback = function()
-            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoRobV4'))()
+            loadScript('http://scripts.projectauto.xyz/AutoRobV4')
          end,
       })
-      local AutoRob5Button = gameTab:CreateButton({
-      Name = "Auto Rob v5 (WARNING: BETA)",
-         Callback = function()
-            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoRobV4'))()
-         end,
-      })
-      local AutoArrest3Button = gameTab:CreateButton({
-      Name = "Auto Arrest v3 (WARNING: BETA)",
-         Callback = function()
-            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoRobV4'))()
-         end,
-      })
-      local AutoArrest4Button = gameTab:CreateButton({
-      Name = "Auto Arrest v4 (WARNING: PAID, BETA)",
-         Callback = function()
-            loadstring(game:HttpGet('http://scripts.projectauto.xyz/AutoArrestV3'))()
-         end,
-      })
-      local DropFarm2Button = gameTab:CreateButton({
-      Name = "Drop Farm v2 (WARNING: PAID)",
-         Callback = function()
-            loadstring(game:HttpGet('http://scripts.projectauto.xyz/DropFarmV2'))()
-         end,
-      })
+      -- Add other Jailbreak-specific buttons here...
    elseif gameName == "Murder Mystery 2" then
       local gameTab = Window:CreateTab("Murder Mystery 2", "slice")
       local gameSection = gameTab:CreateSection("Script Hubs")
@@ -275,17 +252,6 @@ local updateIntervalSlider = settingsTab:CreateSlider({
    Flag = "bri1",
    Callback = function(Value)
       BrodcastInterval = Value
-   end,
-})
-
-local checkNowButton = settingsTab:CreateButton({
-   Name = "Check Now",
-   Callback = function()
-      if game:HttpGet("https://raw.githubusercontent.com/rblxploit-dev/MeowHub/refs/heads/main/meowhub.luau") ~= RAW then
-         notify("MeowHub", "New update detected! Please re-execute the script.", 6.5, "shield-alert")
-      else
-         notify("MeowHub", "No update detected.", 6.5, "shield-check")
-      end
    end,
 })
 
